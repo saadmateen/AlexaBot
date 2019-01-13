@@ -1,150 +1,49 @@
-const Alexa = require('ask-sdk-core');
-
-const LaunchRequestHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
-  },
-  handle(handlerInput) {
-    const speakOutput = 'Hi there, How are you feeling today?';
-
-    // The response builder contains is an object that handles generating the
-    // JSON response that your skill returns.
-    return handlerInput.responseBuilder
-      .speak(speakOutput).reprompt(speakOutput) // The text passed to speak, is what Alexa will say.
-      .getResponse();
-  },
-};
-
-const HelloHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'LanguageIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = 'Thats great. I am glad to hear about that. How are your medications going. Are you on track with them?;'
-
-    // The response builder contains is an object that handles generating the
-    // JSON response that your skill returns.
-    return handlerInput.responseBuilder
-      .speak(speakOutput).reprompt(speakOutput) // The text passed to speak, is what Alexa will say.
-      .getResponse();
-  },
-};
-
-const MedicationHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'MedicationIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = 'Amazing. Let me know if you need anything. I will always be there for you.';
-
-    // The response builder contains is an object that handles generating the
-    // JSON response that your skill returns.
-    return handlerInput.responseBuilder
-      .speak(speakOutput) // The text passed to speak, is what Alexa will say.
-      .getResponse();
-  },
-};
-
-
-const HelpHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'BadIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = 'I am so sorry to hear about that. Would you like to talk about your day';
-
-    return handlerInput.responseBuilder
-      .speak(speakOutput).reprompt(speakOutput)
-      .getResponse();
-  },
-};
-
-const FollowHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'FoIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = 'I am all ears';
-
-    return handlerInput.responseBuilder
-      .speak(speakOutput)
-      .getResponse();
-  },
-};
-
-const FollownegHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'FolIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = 'If you need help you can always reach out to Canadian Mental Health Association at 1-888-893-8333. Take care.';
-
-    return handlerInput.responseBuilder
-      .speak(speakOutput)
-      .getResponse();
-  },
-};
-
-
-const CancelAndStopHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
-        || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
-  },
-  handle(handlerInput) {
-    const speakOutput = 'Goodbye!';
-
-    return handlerInput.responseBuilder
-      .speak(speakOutput)
-      .getResponse();
-  },
-};
-
-const SessionEndedRequestHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
-  },
-  handle(handlerInput) {
-  //  console.log(Session ended with reason: ${handlerInput.requestEnvelope.request.reason});
-
-    return handlerInput.responseBuilder.getResponse();
-  },
-};
-
-const ErrorHandler = {
-  canHandle() {
-    return true;
-  },
-  handle(handlerInput, error) {
-   // console.log(Error handled: ${error.message});
-    console.log(error.trace);
-
-    return handlerInput.responseBuilder
-      .speak('Sorry, I can\'t understand the command. Please say again.').reprompt("Could you repeat that")
-      .getResponse();
-  },
-};
-
-const skillBuilder = Alexa.SkillBuilders.custom();
-
-exports.handler = skillBuilder
-  .addRequestHandlers(
-    LaunchRequestHandler,
-    HelloHandler,
-    MedicationHandler,
-    HelpHandler,
-    FollowHandler,
-    FollownegHandler,
-    
-    
-    CancelAndStopHandler,
-    SessionEndedRequestHandler,
-  )
-  .addErrorHandlers(ErrorHandler)
-  .lambda();
+/*
+ * Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * A copy of the License is located at
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * or in the "license" file accompanying this file. This file is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
+var AttributesManagerFactory_1 = require("./lib/attributes/AttributesManagerFactory");
+exports.AttributesManagerFactory = AttributesManagerFactory_1.AttributesManagerFactory;
+var DefaultRequestDispatcher_1 = require("./lib/dispatcher/DefaultRequestDispatcher");
+exports.DefaultRequestDispatcher = DefaultRequestDispatcher_1.DefaultRequestDispatcher;
+var DefaultErrorMapper_1 = require("./lib/dispatcher/error/DefaultErrorMapper");
+exports.DefaultErrorMapper = DefaultErrorMapper_1.DefaultErrorMapper;
+var DefaultHandlerAdapter_1 = require("./lib/dispatcher/request/handler/DefaultHandlerAdapter");
+exports.DefaultHandlerAdapter = DefaultHandlerAdapter_1.DefaultHandlerAdapter;
+var DefaultRequestHandlerChain_1 = require("./lib/dispatcher/request/handler/DefaultRequestHandlerChain");
+exports.DefaultRequestHandlerChain = DefaultRequestHandlerChain_1.DefaultRequestHandlerChain;
+var GenericRequestHandlerChain_1 = require("./lib/dispatcher/request/handler/GenericRequestHandlerChain");
+exports.GenericRequestHandlerChain = GenericRequestHandlerChain_1.GenericRequestHandlerChain;
+var DefaultRequestMapper_1 = require("./lib/dispatcher/request/mapper/DefaultRequestMapper");
+exports.DefaultRequestMapper = DefaultRequestMapper_1.DefaultRequestMapper;
+var ImageHelper_1 = require("./lib/response/ImageHelper");
+exports.ImageHelper = ImageHelper_1.ImageHelper;
+var PlainTextContentHelper_1 = require("./lib/response/PlainTextContentHelper");
+exports.PlainTextContentHelper = PlainTextContentHelper_1.PlainTextContentHelper;
+var ResponseFactory_1 = require("./lib/response/ResponseFactory");
+exports.ResponseFactory = ResponseFactory_1.ResponseFactory;
+var RichTextContentHelper_1 = require("./lib/response/RichTextContentHelper");
+exports.RichTextContentHelper = RichTextContentHelper_1.RichTextContentHelper;
+var TextContentHelper_1 = require("./lib/response/TextContentHelper");
+exports.TextContentHelper = TextContentHelper_1.TextContentHelper;
+var DefaultApiClient_1 = require("./lib/service/DefaultApiClient");
+exports.DefaultApiClient = DefaultApiClient_1.DefaultApiClient;
+var BaseSkillFactory_1 = require("./lib/skill/factory/BaseSkillFactory");
+exports.BaseSkillFactory = BaseSkillFactory_1.BaseSkillFactory;
+var CustomSkillFactory_1 = require("./lib/skill/factory/CustomSkillFactory");
+exports.CustomSkillFactory = CustomSkillFactory_1.CustomSkillFactory;
+var Skill_1 = require("./lib/skill/Skill");
+exports.Skill = Skill_1.Skill;
+var SkillBuilders_1 = require("./lib/skill/SkillBuilders");
+exports.SkillBuilders = SkillBuilders_1.SkillBuilders;
+//# sourceMappingURL=index.js.map
